@@ -1,16 +1,44 @@
 {
-  "name": "network-utilities-suite",
-  "version": "1.0.0",
-  "description": "A desktop application for common network utilities using Electron.",
-  "main": "main.js",
-  "scripts": {
-    "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "Your Name",
-  "license": "MIT",
-  "devDependencies": {
-    "electron": "^31.0.0"
+    "name": "network-utilities-suite",
+    "version": "1.0.0",
+    "description": "A desktop application for common network utilities using Electron.",
+    "main": "main.js",
+    "scripts": {
+      "start": "electron .",
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "pack": "electron-builder --dir",
+      "dist": "electron-builder"
+    },
+    "keywords": [],
+    "author": "Your Name",
+    "license": "MIT",
+    "devDependencies": {
+      "electron": "^31.0.0",
+      "electron-builder": "^26.0.12"
+    },
+    "build": {
+      "appId": "com.prateek54353.networkutilssuite",
+      "productName": "NetworkUtilitiesSuite",
+      "directories": {
+        "output": "build"
+      },
+      "win": {
+        "target": [
+          {
+            "target": "nsis",
+            "arch": [
+              "x64"
+            ]
+          }
+        ]
+      },
+      "files": [
+        "main.js",
+        "preload.js",
+        "index.html",
+        "renderer.js",
+        "package.json",
+        "lib/**/*"
+      ]
+    }
   }
-}
