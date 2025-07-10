@@ -1,0 +1,33 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*' # Push events to tags like v1.0.0, v1.2.3, etc.
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build and release Electron app
+        uses: samuelmeuli/action-electron-builder@v1
+        with:
+          # GitHub token, automatically provided to the action
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          release: true # To create a new release

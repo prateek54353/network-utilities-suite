@@ -2,7 +2,16 @@
 
 A user-friendly desktop application built with Electron that provides a graphical interface for common network diagnostic tools like Ping, Traceroute, DNS Lookup, and more.
 
-![Application Screenshot](<placeholder-for-your-screenshot.png>)
+### Screenshots
+
+![Screenshot 1](screenshots/ss1.png)
+_Main Ping Utility Tab_
+
+![Screenshot 2](screenshots/ss2.png)
+_Traceroute in Action_
+
+![Screenshot 3](screenshots/ss3.png)
+_DNS Lookup Results_
 
 This project is a practical example of building a full-stack desktop application using web technologies, demonstrating secure command execution via Electron's IPC (Inter-Process Communication) and dynamic UI updates.
 
