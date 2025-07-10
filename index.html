@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="lib/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { padding-top: 20px; }
+        .tab-content { border: 1px solid #dee2e6; border-top: none; padding: 20px; border-radius: 0 0 .25rem .25rem; background-color: #fff; }
+        .output-box {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            padding: 10px;
+            min-height: 150px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap; /* Preserve whitespace and wrap text */
+            word-wrap: break-word; /* Break long words */
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #343a40;
+            border-radius: .25rem;
+        }
+        .ping-result-line { margin-bottom: 5px; }
+        .open-port { color: green; font-weight: bold; }
+        .closed-port { color: red; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4 text-center">Network Utilities Suite</h1>
+
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="ping-tab" data-bs-toggle="tab" data-bs-target="#ping" type="button" role="tab" aria-controls="ping" aria-selected="true">Ping</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tracert-tab" data-bs-toggle="tab" data-bs-target="#tracert" type="button" role="tab" aria-controls="tracert" aria-selected="false">Traceroute</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="dns-tab" data-bs-toggle="tab" data-bs-target="#dns" type="button" role="tab" aria-controls="dns" aria-selected="false">DNS Lookup</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="portscan-tab" data-bs-toggle="tab" data-bs-target="#portscan" type="button" role="tab" aria-controls="portscan" aria-selected="false">Port Scanner</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="netdrive-tab" data-bs-toggle="tab" data-bs-target="#netdrive" type="button" role="tab" aria-controls="netdrive" aria-selected="false">Network Drive</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="ping" role="tabpanel" aria-labelledby="ping-tab">
+                <div class="mb-3">
+                    <label for="pingHost" class="form-label">Host/IP to Ping:</label>
+                    <input type="text" class="form-control" id="pingHost" placeholder="e.g., google.com or 8.8.8.8" value="google.com">
+                </div>
+                <button class="btn btn-primary" id="runPing">Run Ping</button>
+                <div class="mt-3">
+                    <h5>Output:</h5>
+                    <div class="output-box" id="pingOutput"></div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="tracert" role="tabpanel" aria-labelledby="tracert-tab">
+                <div class="mb-3">
+                    <label for="tracertHost" class="form-label">Host/IP for Traceroute:</label>
+                    <input type="text" class="form-control" id="tracertHost" placeholder="e.g., google.com or 8.8.8.8">
+                </div>
+                <button class="btn btn-primary" id="runTracert">Run Traceroute</button>
+                <div class="mt-3">
+                    <h5>Output:</h5>
+                    <div class="output-box" id="tracertOutput"></div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="dns" role="tabpanel" aria-labelledby="dns-tab">
+                <div class="mb-3">
+                    <label for="dnsDomain" class="form-label">Domain/IP to Lookup:</label>
+                    <input type="text" class="form-control" id="dnsDomain" placeholder="e.g., example.com or 192.168.1.1">
+                </div>
+                <button class="btn btn-primary" id="runDnsLookup">Run DNS Lookup</button>
+                <div class="mt-3">
+                    <h5>Output:</h5>
+                    <div class="output-box" id="dnsOutput"></div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="portscan" role="tabpanel" aria-labelledby="portscan-tab">
+                <div class="mb-3">
+                    <label for="portScanIp" class="form-label">IP Address:</label>
+                    <input type="text" class="form-control" id="portScanIp" placeholder="e.g., 127.0.0.1">
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="startPort" class="form-label">Start Port:</label>
+                        <input type="number" class="form-control" id="startPort" value="1" min="1" max="65535">
+                    </div>
+                    <div class="col">
+                        <label for="endPort" class="form-label">End Port:</label>
+                        <input type="number" class="form-control" id="endPort" value="100" min="1" max="65535">
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="runPortScan">Scan Ports</button>
+                <div class="mt-3">
+                    <h5>Output:</h5>
+                    <div class="output-box" id="portScanOutput"></div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="netdrive" role="tabpanel" aria-labelledby="netdrive-tab">
+                <h5>Map Network Drive</h5>
+                <div class="mb-3">
+                    <label for="mapDriveLetter" class="form-label">Drive Letter (e.g., Z):</label>
+                    <input type="text" class="form-control" id="mapDriveLetter" maxlength="1" placeholder="e.g., Z">
+                </div>
+                <div class="mb-3">
+                    <label for="mapNetworkPath" class="form-label">Network Path (e.g., \\server\share):</label>
+                    <input type="text" class="form-control" id="mapNetworkPath" placeholder="e.g., \\192.168.1.100\share">
+                </div>
+                <div class="mb-3">
+                    <label for="mapUsername" class="form-label">Username (Optional):</label>
+                    <input type="text" class="form-control" id="mapUsername" placeholder="e.g., domain\user">
+                </div>
+                <div class="mb-3">
+                    <label for="mapPassword" class="form-label">Password (Optional):</label>
+                    <input type="password" class="form-control" id="mapPassword">
+                </div>
+                <button class="btn btn-success mb-4" id="runMapDrive">Map Drive</button>
+
+                <hr>
+
+                <h5>Unmap Network Drive</h5>
+                <div class="mb-3">
+                    <label for="unmapDriveLetter" class="form-label">Drive Letter to Unmap (e.g., Z):</label>
+                    <input type="text" class="form-control" id="unmapDriveLetter" maxlength="1" placeholder="e.g., Z">
+                </div>
+                <button class="btn btn-danger" id="runUnmapDrive">Unmap Drive</button>
+
+                <div class="mt-3">
+                    <h5>Output:</h5>
+                    <div class="output-box" id="netDriveOutput"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="lib/bootstrap.bundle.min.js"></script>
+    <script src="renderer.js"></script>
+</body>
+</html>
